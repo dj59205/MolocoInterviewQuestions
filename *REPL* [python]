@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/Users/danelee/Desktop/Moloco /question3", line 26, in <module>
+    dictOfUsers[row[1]] = [converttoTime(row[0]),row[3]]
+  File "/Users/danelee/Desktop/Moloco /question3", line 17, in converttoTime
+    return(datetime(each[0],each[1],each[2],each[3],each[5]))
+TypeError: 'module' object is not callable
+>>> 

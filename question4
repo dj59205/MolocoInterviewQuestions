@@ -1,0 +1,49 @@
+import csv 
+import array
+from datetime import datetime
+
+def converttoTime(fullDate):
+  dateLst = []
+  each = []
+  for dates in fullDate.split(" "): 
+    dateLst.append(dates)
+  for first in dateLst[0].split("-"): 
+    each.append(first)
+  for second in dateLst[1].split(":"): 
+    each.append(second)
+  return(datetime(int(each[0]),int(each[1]),int(each[2]),int(each[3]),int(each[5])))
+  
+with open('SWE sample data - Q3 data.csv') as csv_file: 
+  csv_reader = csv.reader(csv_file, delimiter = ',')
+  dictOfUsers = dict()
+  linecount = 0 
+  for row in csv_reader: 
+    if(linecount != 0):      
+      if(row[1] not in dictOfUsers):
+        dictOfUsers[row[1]] = [[row[0],row[3]]]
+      else:
+        if(len(dictOfUsers[row[1]])==1): 
+          if(converttoTime(dictOfUsers[row[1]][0][0]) > converttoTime(row[0])):
+            dictOfUsers[row[1]].append(dictOfUsers[row[1]][0])
+            dictOfUsers[row[1]][0] = [row[0],row[3]]
+          else:
+            dictOfUsers[row[1]].append([row[0],row[3]])
+        else:
+          if(converttoTime(dictOfUsers[row[1]][0][0]) > converttoTime(row[0])):
+              dictOfUsers[row[1]][0] = [row[0],row[3]]
+          else: 
+            if(converttoTime(dictOfUsers[row[1]][0][0]) < converttoTime(row[0])):
+              dictOfUsers[row[1]][1] = [row[0],row[3]]
+    linecount += 1
+  numOfUsersWithSametime = 0
+  for user in dictOfUsers: 
+    if(len(dictOfUsers[user])==2): 
+      if(dictOfUsers[user][0][1] == dictOfUsers[user][1][1]): 
+        numOfUsersWithSametime += 1
+  print(numOfUsersWithSametime)
+
+
+
+
+        
+

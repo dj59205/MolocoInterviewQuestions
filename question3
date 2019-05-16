@@ -1,0 +1,61 @@
+import csv 
+import array
+from datetime import datetime
+
+def converttoTime(fullDate):
+  dateLst = []
+  each = []
+  for dates in fullDate.split(" "): 
+    dateLst.append(dates)
+  for first in dateLst[0].split("-"): 
+    each.append(first)
+  for second in dateLst[1].split(":"): 
+    each.append(second)
+  return(datetime(int(each[0]),int(each[1]),int(each[2]),int(each[3]),int(each[5])))
+  
+with open('SWE sample data - Q3 data.csv') as csv_file: 
+  csv_reader = csv.reader(csv_file, delimiter = ',')
+  dictOfUsers = dict()
+  linecount = 0 
+  for row in csv_reader: 
+    if(linecount != 0):
+      if(row[1] not in dictOfUsers):
+        dictOfUsers[row[1]] = [converttoTime(row[0]),row[3]]
+      else:
+        if(converttoTime(row[0]) < dictOfUsers[row[1]][0]): 
+          dictOfUsers[row[1]] = [converttoTime(row[0]),row[3]]
+    linecount += 1
+  numOfUsers = dict()
+  for eachOne in dictOfUsers:
+    if(dictOfUsers[eachOne][1] not in numOfUsers):
+      numOfUsers[dictOfUsers[eachOne][1]] = 0
+    else: 
+      numOfUsers[dictOfUsers[eachOne][1]] += 1 
+  arr = []
+  leastUsers = 100000
+  indexAtLeastUsers = 0
+  for website in numOfUsers: 
+    if(len(arr)<3): 
+      if(numOfUsers[website]<leastUsers): 
+        indexAtLeastUsers = len(arr)
+        leastUsers = numOfUsers[website]
+      arr.append([website,numOfUsers[website]])
+    else:
+      if(numOfUsers[website]>leastUsers):
+        arr[indexAtLeastUsers] = [website,numOfUsers[website]]
+        leastUsers = 1000000
+        for i in range(len(arr)): 
+          if arr[i][1] < leastUsers: 
+            indexAtLeastUsers = i
+            leastUsers = arr[i][1]
+
+        
+  print(arr)
+
+
+
+
+
+  
+
+

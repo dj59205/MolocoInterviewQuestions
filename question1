@@ -1,0 +1,29 @@
+import csv 
+import array
+
+with open('SWE sample data - Q3 data.csv') as csv_file:
+  csv_reader = csv.reader(csv_file, delimiter = ',')
+  line_count = 0 
+  arr = []
+  d = dict()
+  for row in csv_reader: 
+    if row[2] == "BDV":
+      if(row[3] not in d):
+        d[row[3]] = [row[1]]
+      else: 
+        if(row[1] not in d[row[3]]): 
+          d[row[3]].append([row[1]])
+  max = -1
+  maxstring = ""
+  for i in d: 
+    if(len(d[i]) > max): 
+      max = len(d[i])
+      maxstring = i
+  print(max,maxstring)
+
+        
+
+
+
+
+

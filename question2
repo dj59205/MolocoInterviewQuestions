@@ -1,0 +1,33 @@
+import csv 
+import array
+from datetime import *
+
+with open('SWE sample data - Q3 data.csv') as csv_file: 
+  csv_reader = csv.reader(csv_file, delimiter = ',')
+  arr = []
+  dictOfUsers = dict()
+  linecount = 0 
+  for row in csv_reader: 
+    if(linecount != 0):
+      dateLst = []
+      for dates in row[0].split(" "): 
+          dateLst.append(dates)
+      y, m, d = [int(x) for x in dateLst[0].split('-')]
+      if(date(y, m, d)==date(2019, 2, 3) or date(y,m,d)==date(2019, 2, 4)):
+        if(row[1] not in dictOfUsers):
+            dictOfUsers[row[1]] = dict() 
+            dictOfUsers[row[1]][row[3]] = 0
+        else: 
+          if(row[3] not in dictOfUsers[row[1]]): 
+            dictOfUsers[row[1]][row[3]] = 0
+          else: 
+            dictOfUsers[row[1]][row[3]] += 1 
+    linecount = linecount + 1
+  res = []
+  for user in dictOfUsers: 
+    for site in dictOfUsers[user]:
+      if dictOfUsers[user][site] > 10: 
+        res.append([user,site,dictOfUsers[user][site]])
+  print(res)
+
+
